@@ -3,6 +3,6 @@ request_player_input: "Please choose a marker: X or O. Keep in mind, that X goes
 invalid_player_input: "Sorry that does not look correct. Please enter either X or O."
 space_selection: 'Please enter an open space: '
 space_selection_error: 'Unfortunately that is not a valid open space. Please enter a number that is not occupied by X or O.'
-turn_commentary: "%s has decided to place an %s at space %s!\n\n"
+commentary: "%s has decided to place an %s at space %s!\n\n"
 cat: 'The game is a tie! CAT MEOW MEOW.'
 winner: '%s has won the game!!'

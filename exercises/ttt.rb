@@ -11,18 +11,14 @@ class TTTGame
 
   def play
     display_welcome_message
-    sleep(3)
     add_players
     until game_over?
       turn(x_player)
-      sleep(3)
       break if game_over?
       turn(o_player)
-      sleep(3)
       system("clear")
     end
     display_winner
-    #play_again?
   end
 
   private
@@ -47,15 +43,17 @@ class TTTGame
     human = Human.new(board)
     computer = Computer.new(board)
     if human.marker == 'X'
-      @x_player, @o_player = human, computer
+      @x_player = human
+      @o_player = computer
     else
-      @x_player, @o_player = computer, human
+      @x_player = computer
+      @o_player = human
     end
   end
 
   def winner
-    win_line = board.current_lines.find { |line| ['XXX', 'OOO'].include?(line.join) }
-    case win_line.join
+    win = board.current_lines.find { |line| ['XXX', 'OOO'].include?(line.join) }
+    case win.join
     when 'XXX' then x_player
     when 'OOO' then o_player
     end
@@ -71,17 +69,15 @@ class TTTGame
     display_board
     selection = player.select_space
     loop do
-      puts MESSAGES['turn_commentary'] % [player.name, player.marker, selection]
+      puts format(MESSAGES['commentary'], player.name, player.marker, selection)
       sleep(3)
       break if board.open_space?(selection)
       puts MESSAGES['space_selection_error']
-      display_board
       selection = player.select_space
     end
     board.receive(selection, player.marker)
   end
 end
-
 
 class Player
   attr_reader :marker, :board, :name
@@ -107,7 +103,6 @@ class Player
   end
 end
 
-
 class Computer < Player
   def initialize(board)
     super(board)
@@ -119,7 +114,7 @@ class Computer < Player
   end
 
   def select_name
-    ['Beatrix', 'Ignatius', 'Reilly', 'Mckayla', 'Jaden', 'Santa', 'Mancuso'].sample
+    ['Beatrix', 'Ignatius', 'Reilly', 'Mckayla', 'Santa', 'Mancuso'].sample
   end
 
   def select_marker
@@ -156,13 +151,12 @@ class Human < Player
   end
 end
 
-
 class Board
   attr_accessor :spaces
   attr_reader :lines
 
   LINES = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8],
-         [0, 4, 8], [2, 4, 6]]
+           [0, 4, 8], [2, 4, 6]]
 
   def initialize
     @spaces = [0, 1, 2, 3, 4, 5, 6, 7, 8]
