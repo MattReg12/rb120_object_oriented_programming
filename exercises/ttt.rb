@@ -3,7 +3,7 @@ require 'yaml'
 MESSAGES = YAML.load_file('ttt.yml')
 
 class TTTGame
-  attr_reader :human, :x_player, :o_player, :board
+  attr_reader :x_player, :o_player, :board
 
   def initialize
     @board = Board.new
